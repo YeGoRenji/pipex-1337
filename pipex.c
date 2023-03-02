@@ -4,6 +4,7 @@
 
 void	handle_error(int argc, char **argv)
 {
+	(void)argv;
 	if (argc != 5)
 	{
 		write(1, "Invalid Format ! \nUse: ./pipex file1 cmd1 cmd2 file2\n", 53);
