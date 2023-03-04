@@ -6,11 +6,17 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJSFOLDER = objs/
 
-# FOLD_ALGO = algo/
+FOLD_UTILS = utils/
 
-# SRCS = main.c
+UTILS_SRCS = ft_strjoin.c \
+			 ft_memcpy.c \
+			 ft_memcmp.c \
+			 ft_strncmp.c \
+			 ft_strlcpy.c \
+			 ft_split.c \
+			 ft_strlen.c
 
-OBJS_FILES = $(SRCS:.c=.o)
+OBJS_FILES = $(UTILS_SRCS:.c=.o)
 
 # OBJS_FILES_BONUS = $(SRCS_RULES:.c=.o) \
 
@@ -30,7 +36,7 @@ $(NAME): $(OBJS)
 $(OBJSFOLDER):
 	@mkdir $@
 
-$(OBJSFOLDER)%.o:%.c
+$(OBJSFOLDER)%.o:$(FOLD_UTILS)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
