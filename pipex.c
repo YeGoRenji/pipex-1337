@@ -10,6 +10,8 @@ void	handle_error(int argc, char **argv)
 		write(1, "Invalid Format ! \nUse: ./pipex file1 cmd1 cmd2 file2\n", 53);
 		exit(-1);
 	}
+	printf("Exists ? : %d\n", access(argv[1], F_OK));
+	printf("Read ? : %d\n", access(argv[1], R_OK));
 }
 
 int main(int argc, char **argv)
