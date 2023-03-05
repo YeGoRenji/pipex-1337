@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "include/utils.h"
+#include "include/get_next_line.h"
 #include <sys/wait.h>
 
 void	ft_putstr_fd(char *str, int fd)
@@ -11,12 +12,19 @@ void	ft_putstr_fd(char *str, int fd)
 		write(fd, str++, 1);
 }
 
-int	check_file(char *file_path)
+void	print_err(char *preced)
 {
-	if (access(file_path, R_OK) != 0 || access(file_path, F_OK) != 0)
+	char	*errmsg;
+	errmsg = ft_strjoin(ft_strdup("pipex: "), preced);
+	perror(errmsg);
+	free(errmsg);
+}
+
+int	check_file(char *file_path, int access_type)
+{
+	if (access(file_path, access_type) != 0)
 	{
-		write(2, "pipex: ", 7);
-		perror(file_path);
+		print_err(file_path);
 		return (0);
 	}
 	return (1);
@@ -66,8 +74,7 @@ void che()
 
 int main(int argc, char **argv, char **envp)
 {
-	int ifile_fd;
-	int ifile_valid;
+	int file_fd;
 	int pid[2];
 	char **cmd;
 	int fd[2];
@@ -76,6 +83,8 @@ int main(int argc, char **argv, char **envp)
 		return (write(2, "Invalid Format ! \nUse: ./pipex file1 cmd1 cmd2 file2\n", 53));
 
 	// TODO : Protect forks and pipe !
+	// TODO : Fix when $PATH unset
+	// TODO : cmd not found Error msg
 	pipe(fd);
 	pid[0] = fork();
 	pid[1] = -1;
@@ -83,46 +92,43 @@ int main(int argc, char **argv, char **envp)
 		pid[1] = fork();
 	if (pid[0] == 0)
 	{
-		close(fd[1]);
-		printf("First Child !\n");
-		ifile_valid = check_file(argv[1]);
-		if (ifile_valid)
-		{
-			ifile_fd = open(argv[1], O_RDONLY);
-			cmd = ft_split(argv[2], ' ');
-			// dup2(fd[0], STDOUT_FILENO);
-			// close(fd[0]);
-			// dup2(ifile_fd, STDIN_FILENO);
-			// printf("ALO");
-			// close(ifile_fd);
-			check_cmd(cmd, envp);
-			write(2, "pipex: ", 7);
-			perror(cmd[0]);
-		}
-	} else if (pid[1] == 0)
-	{
 		close(fd[0]);
-		char *str = malloc(5);
-		str[4] = '\0';
-		printf("Second Child !\n");
-		while (read(fd[1], str, 4) != -1)
+		// printf("First Child !\n");
+		if (check_file(argv[1], R_OK))
 		{
-			puts("Got IT !");
-			printf("%s\n", str);
+			file_fd = open(argv[1], O_RDONLY);
+			cmd = ft_split(argv[2], ' ');
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
+
+			dup2(file_fd, STDIN_FILENO);
+			close(file_fd);
+
+			check_cmd(cmd, envp);
+			print_err(cmd[0]);
 		}
 	}
-	// char* argvs[] = { "ls", "-la", NULL };
-	// execve("ls", argvs, envp);
-	// perror(NULL);
-	// printf("ALOOO");
-	// int fd = open(argv[1], O_RDONLY);
+	else if (pid[1] == 0)
+	{
+		close(fd[1]);
+		// printf("Second Child !\n");
+		if (access(argv[4], F_OK) || check_file(argv[4], W_OK))
+		{
+			file_fd = open(argv[4], O_WRONLY | O_CREAT, 0644);
+			cmd = ft_split(argv[3], ' ');
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
 
-	// printf("fd = %d\n", fd);
-	// perror(argv[1]);
-	// int pid = fork();
-	// if (pid == 0)
-	// 	exit(-1);
+			dup2(file_fd, STDOUT_FILENO);
+			close(file_fd);
 
+			check_cmd(cmd, envp);
+			print_err(cmd[0]);
+		}
+	}
+
+	close(fd[0]);
+	close(fd[1]);
 	if (pid[0] != 0 && pid[1] != 0)
 	{
 		wait(NULL);

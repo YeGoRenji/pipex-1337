@@ -8,7 +8,7 @@ OBJSFOLDER = objs/
 
 FOLD_UTILS = utils/
 
-UTILS_SRCS = ft_strjoin.c \
+SRCS_UTILS = ft_strjoin.c \
 			 ft_memcpy.c \
 			 ft_memcmp.c \
 			 ft_strncmp.c \
@@ -16,7 +16,11 @@ UTILS_SRCS = ft_strjoin.c \
 			 ft_split.c \
 			 ft_strlen.c
 
-OBJS_FILES = $(UTILS_SRCS:.c=.o)
+SRCS_GNL = get_next_line.c \
+		   get_next_line_utils.c
+
+OBJS_FILES = $(SRCS_UTILS:.c=.o) \
+			 $(SRCS_GNL:.c=.o)
 
 # OBJS_FILES_BONUS = $(SRCS_RULES:.c=.o) \
 
@@ -36,7 +40,10 @@ $(NAME): $(OBJS)
 $(OBJSFOLDER):
 	@mkdir $@
 
-$(OBJSFOLDER)%.o:$(FOLD_UTILS)%.c
+$(OBJSFOLDER)%.o:$(FOLD_UTILS)%.c include/utils.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJSFOLDER)%.o:gnl/%.c include/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
