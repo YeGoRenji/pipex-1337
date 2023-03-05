@@ -175,7 +175,7 @@ int main(int argc, char **argv, char **envp)
 	close(pipe_fd[1]);
 	if (pid[0] != 0 && pid[1] != 0)
 	{
-		printf("%d\n", wait(NULL));
+		wait(NULL);
 		wait(NULL);
 	}
 }
