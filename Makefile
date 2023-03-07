@@ -2,7 +2,8 @@ CC = cc
 
 NAME = pipex
 
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror -fsanitize=leak
+CFLAGS = -g
 
 OBJSFOLDER = objs/
 

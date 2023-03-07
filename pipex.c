@@ -105,6 +105,18 @@ void che()
 	system("leaks pipex");
 }
 
+void	ft_free_split(char **split_ptr)
+{
+	char **ptr;
+
+	if (!split_ptr)
+		return ;
+	ptr = split_ptr;
+	while(*ptr)
+		free(*ptr++);
+	free(split_ptr);
+}
+
 void	pipe_cmd_process(char **cmd, int input_fd, int output_fd, char **envp)
 {
 	dup2(input_fd, STDIN_FILENO);
@@ -112,6 +124,8 @@ void	pipe_cmd_process(char **cmd, int input_fd, int output_fd, char **envp)
 	dup2(output_fd, STDOUT_FILENO);
 	close(output_fd);
 	print_err(cmd[0], check_cmd(cmd, envp));
+	ft_free_split(cmd);
+
 }
 
 void	fork_for(int *pids, int nb)
