@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 16:14:32 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/08 17:26:22 by ylyoussf         ###   ########.fr       */
+/*   Created: 2023/03/08 17:11:05 by ylyoussf          #+#    #+#             */
+/*   Updated: 2023/03/08 17:11:35 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../include/utils.h"
 
-# include "utils.h"
+void	ft_free_split(char **split_ptr)
+{
+	char **ptr;
 
-size_t	ft_strlen_noseg(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strdup(const char *s1);
-char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*get_next_line(int fd);
-#endif
+	if (!split_ptr)
+		return ;
+	ptr = split_ptr;
+	while(*ptr)
+		free(*ptr++);
+	free(split_ptr);
+}

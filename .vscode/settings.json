@@ -1,6 +1,10 @@
 {
 	"files.associations": {
 		"utils.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"pipe_process.h": "c",
+		"error_check.h": "c",
+		"unistd.h": "c",
+		"stdlib.h": "c"
 	}
 }

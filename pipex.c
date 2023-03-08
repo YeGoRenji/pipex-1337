@@ -1,46 +1,19 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <errno.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/08 17:29:07 by ylyoussf          #+#    #+#             */
+/*   Updated: 2023/03/08 17:46:48 by ylyoussf         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "include/utils.h"
 #include "include/get_next_line.h"
-
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	write(fd, str, ft_strlen(str));
-}
-
-int	print_err(char *preced, int msg_code)
-{
-	char	*errmsg;
-	errmsg = ft_strjoin(ft_strdup("pipex: "), preced);
-	if (msg_code == -1)
-		errmsg = ft_strjoin(errmsg, ": command not found\n");
-	else if (msg_code == -2)
-		errmsg = ft_strjoin(errmsg, ": allocation error\n");
-	else if (msg_code == -3)
-		errmsg = ft_strjoin(errmsg, ": $PATH var unset\n");
-
-	if (msg_code == 0)
-		perror(errmsg);
-	else
-		ft_putstr_fd(errmsg, 2);
-	free(errmsg);
-	return (msg_code);
-}
-
-int	check_file(char *file_path, int access_type)
-{
-	if (access(file_path, access_type) != 0)
-	{
-		print_err(file_path, 0);
-		return (0);
-	}
-	return (1);
-}
+#include "include/pipe_process.h"
+#include "include/error_check.h"
 
 void printSPLIT(char ** s)
 {
@@ -62,73 +35,12 @@ void printSPLIT(char ** s)
 	printf("\n");
 }
 
-char	*find_path(char **envp)
-{
-	while (*envp)
-	{
-		if (ft_strncmp("PATH=", *envp, 5) == 0)
-			return (*envp);
-		envp++;
-	}
-	return (NULL);
-}
-
-int	check_cmd(char **cmd, char **envp)
-{
-	char	*path_var;
-	char	**paths;
-	char	**tmp;
-	path_var = find_path(envp);
-	if (!path_var)
-		return (-3);
-	paths = ft_split(path_var + 5, ':');
-	// paths = NULL;
-	tmp = paths;
-	if (!paths)
-		return (-2);
-	while (*paths)
-	{
-		*paths = ft_strjoin(*paths, "/");
-		*paths = ft_strjoin(*paths, cmd[0]);
-		// printf("%s : %d\n", *paths, access(*paths, X_OK));
-		if (access(*paths, X_OK) == 0)
-			execve(*paths, cmd, envp);
-		free(*paths);
-		paths++;
-	}
-	free(tmp);
-	return (-1);
-}
-
 void che()
 {
 	system("leaks pipex");
 }
 
-void	ft_free_split(char **split_ptr)
-{
-	char **ptr;
-
-	if (!split_ptr)
-		return ;
-	ptr = split_ptr;
-	while(*ptr)
-		free(*ptr++);
-	free(split_ptr);
-}
-
-void	pipe_cmd_process(char **cmd, int input_fd, int output_fd, char **envp)
-{
-	dup2(input_fd, STDIN_FILENO);
-	close(input_fd);
-	dup2(output_fd, STDOUT_FILENO);
-	close(output_fd);
-	print_err(cmd[0], check_cmd(cmd, envp));
-	ft_free_split(cmd);
-
-}
-
-void	fork_for(int *pids, int nb)
+int	fork_for(int *pids, int nb)
 {
 	int	i;
 
@@ -136,15 +48,28 @@ void	fork_for(int *pids, int nb)
 	while (i < nb - 1)
 	{
 		pids[i] = fork();
-		pids[i + 1] = -1;
+		printf("%d\n", pids[i]);
+		pids[i + 1] = -2;
 		if (pids[i] != 0)
+		{
 			pids[i + 1] = fork();
+			printf("%d\n",pids[i + 1]);
+		}
+		if (pids[i] == -1 || pids[i + 1] == -1)
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
-	// TODO : Protect forks and pipe ! (Pids shouldn't be -1)
-	// TODO : Fix when $PATH unset
+void	close_pipe(int *pipe, int size)
+{
+	while (size--)
+		close(pipe[size]);
+}
+
+	///// TODO : Protect forks and pipe ! (Pids shouldn't be -1)
+	///// TODO : Fix when $PATH unset
 	///// TODO : cmd not found Error msg
 	// //! Remove this
 	// if (pid[0] != 0 && pid[1] == 0)
@@ -153,43 +78,27 @@ void	fork_for(int *pids, int nb)
 
 int main(int argc, char **argv, char **envp)
 {
-	int file_fd;
-	int pid[2];
-	char **cmd;
-	int pipe_fd[2];
+	(void)argv;
+	(void)envp;
+	int		pid[2];
+	int		pipe_fd[2];
 	if (argc != 5)
-		return (write(2, "Invalid Format !\nUse: ./pipex in_file cmd1 cmd2 out_file\n", 57));
-	pipe(pipe_fd);
-	fork_for(pid, 2);
-	if (pid[0] == 0)
 	{
-		close(pipe_fd[0]);
-		if (check_file(argv[1], R_OK))
-		{
-			file_fd = open(argv[1], O_RDONLY);
-			cmd = ft_split(argv[2], ' ');
-			if (!cmd)
-				return (print_err(argv[2], -2));
-			pipe_cmd_process(cmd, file_fd, pipe_fd[1], envp);
-		}
+		write(2, "Invalid Format !\n", 17);
+		write(2, "Use: ./pipex in_file cmd1 cmd2 out_file\n", 40);
+		return (-1);
 	}
-	else if (pid[1] == 0)
-	{
-		close(pipe_fd[1]);
-		if (access(argv[4], F_OK) || check_file(argv[4], W_OK))
-		{
-			file_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT);
-			cmd = ft_split(argv[3], ' ');
-			if (!cmd)
-				return (print_err(argv[3], -2));
-			pipe_cmd_process(cmd, pipe_fd[0], file_fd, envp);
-		}
-	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	if (pid[0] != 0 && pid[1] != 0)
-	{
-		wait(NULL);
-		wait(NULL);
-	}
+	if (pipe(pipe_fd) == -1)
+		// return (print_err("pipe", 0));
+	if (!fork_for(pid, 10))
+	// 	return (print_err("fork", 0));
+	// if (pid[0] == 0)
+	// 	return (cmd_file_pipe(argv[2], argv[1], 1, pipe_fd, envp));
+	// else if (pid[1] == 0)
+	// 	return (cmd_file_pipe(argv[3], argv[4], 0, pipe_fd, envp));
+	// //* Parent For Sure !
+	// close_pipe(pipe_fd, 2);
+	// wait(NULL);
+	// wait(NULL);
+	return (0);
 }

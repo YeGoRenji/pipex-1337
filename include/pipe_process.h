@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   pipe_process.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 16:14:32 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/08 17:26:22 by ylyoussf         ###   ########.fr       */
+/*   Created: 2023/03/08 16:53:44 by ylyoussf          #+#    #+#             */
+/*   Updated: 2023/03/08 17:22:50 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef PIPE_PROCESS_H
+# define PIPE_PROCESS_H
 
 # include "utils.h"
+# include <fcntl.h>
 
-size_t	ft_strlen_noseg(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strdup(const char *s1);
-char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*get_next_line(int fd);
+# define IF_LINE(condition, if_true, if_false) (condition ? if_true : if_false)
+# define FLAGS_INPUT O_RDONLY
+# define FLAGS_OUTPUT O_WRONLY | O_TRUNC | O_CREAT
+
+int	cmd_pipe(char *cmd, int input_fd, int output_fd, char **envp);
+int	cmd_file_pipe(char *cmd, char *file_path, int is_input, int* pipe_fd, char **envp);
 #endif
