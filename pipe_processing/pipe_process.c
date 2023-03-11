@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:52:21 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/08 17:45:48 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/11 20:40:54 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,17 @@ int	cmd_pipe(char *cmd, int input_fd, int output_fd, char **envp)
 	cmd_split = ft_split(cmd, ' ');
 	if (!cmd_split)
 		return (print_err(cmd, -2));
-	dup2(input_fd, STDIN_FILENO);
+	if (dup2(input_fd, STDIN_FILENO) == -1)
+	{
+		puts("Here 1");
+		print_err(cmd, 0);
+	}
 	close(input_fd);
-	dup2(output_fd, STDOUT_FILENO);
+	if (dup2(output_fd, STDOUT_FILENO) == -1)
+	{
+		puts("Here 2");
+		print_err(cmd, 0);
+	}
 	close(output_fd);
 	err_code = print_err(cmd_split[0], check_cmd(cmd_split, envp));
 	ft_free_split(cmd_split);
@@ -43,12 +51,12 @@ int	cmd_file_pipe(char *cmd, char *file_path, int is_input, int* pipe_fd, char *
 		return (print_err(file_path, 0));
 	if (is_input)
 	{
-		close(pipe_fd[0]);
+		// close(pipe_fd[0]);
 		return (cmd_pipe(cmd, file_fd, pipe_fd[1], envp));
 	}
 	else
 	{
-		close(pipe_fd[1]);
+		// close(pipe_fd[1]);
 		return (cmd_pipe(cmd, pipe_fd[0], file_fd, envp));
 	}
 }
