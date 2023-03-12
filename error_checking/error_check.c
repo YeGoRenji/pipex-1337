@@ -6,16 +6,11 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:15:20 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/08 17:45:23 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:56:34 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/error_check.h"
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	write(fd, str, ft_strlen(str));
-}
 
 int	print_err(char *preced, int msg_code)
 {
@@ -31,8 +26,9 @@ int	print_err(char *preced, int msg_code)
 	if (msg_code == 0)
 		perror(errmsg);
 	else
-		ft_putstr_fd(errmsg, 2);
+		write(2, errmsg, ft_strlen(errmsg));
 	free(errmsg);
+	// printf("%d msgcode\n", msg_code);
 	return (msg_code);
 }
 
@@ -62,11 +58,13 @@ int	check_cmd(char **cmd, char **envp)
 	char	*path_var;
 	char	**paths;
 	char	**tmp;
+	//! unallowed func
+	if (ft_strchr(cmd[0], '/') && check_file(cmd[0], X_OK))
+		execve(cmd[0], cmd, envp);
 	path_var = find_path(envp);
 	if (!path_var)
 		return (-3);
 	paths = ft_split(path_var + 5, ':');
-	// paths = NULL;
 	tmp = paths;
 	if (!paths)
 		return (-2);
@@ -74,7 +72,6 @@ int	check_cmd(char **cmd, char **envp)
 	{
 		*paths = ft_strjoin(*paths, "/");
 		*paths = ft_strjoin(*paths, cmd[0]);
-		// printf("%s : %d\n", *paths, access(*paths, X_OK));
 		if (access(*paths, X_OK) == 0)
 			execve(*paths, cmd, envp);
 		free(*paths);

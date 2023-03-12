@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:47:08 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/08 17:43:37 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:51:20 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-#include "get_next_line.h"
+# include "get_next_line.h"
+# define IS_CHILD(pid) (pid == 0)
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -27,4 +28,5 @@ size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 void	ft_free_split(char **split_ptr);
+void	ft_putstr_fd(int fd, char *str);
 #endif

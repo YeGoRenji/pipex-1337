@@ -5,6 +5,8 @@ NAME = pipex
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 # CFLAGS = -g
 
+BONUS = pipex_bonus
+
 OBJSFOLDER = objs/
 
 FOLD_UTILS = utils/
@@ -20,7 +22,8 @@ SRCS_UTILS = ft_strjoin.c \
 			 ft_strlcpy.c \
 			 ft_split.c \
 			 ft_strlen.c \
-			 ft_free_split.c
+			 ft_free_split.c \
+			 ft_putstr_fd.c
 
 SRCS_ERROR = error_check.c
 
@@ -34,11 +37,11 @@ OBJS_FILES = $(SRCS_UTILS:.c=.o) \
 			 $(SRCS_PIPE:.c=.o) \
 			 $(SRCS_GNL:.c=.o)
 
-# OBJS_FILES_BONUS = $(SRCS_RULES:.c=.o) \
+OBJS_FILES_BONUS = $(OBJS_FILES)
 
 OBJS = $(foreach obj, $(OBJS_FILES), $(OBJSFOLDER)$(obj))
 
-# OBJS_BONUS = $(foreach obj, $(OBJS_FILES_BONUS), $(OBJSFOLDER)$(obj))
+OBJS_BONUS = $(foreach obj, $(OBJS_FILES_BONUS), $(OBJSFOLDER)$(obj))
 
 all: $(OBJSFOLDER) $(NAME)
 
@@ -46,8 +49,8 @@ bonus: $(OBJSFOLDER) $(BONUS)
 
 $(NAME): $(OBJS)
 
-# $(BONUS): $(OBJS_BONUS) bonus/checker.c
-# 	$(CC) $(CFLAGS) $^ -o $@
+$(BONUS): $(OBJS_BONUS) #bonus/checker.c
+	$(CC) $(CFLAGS) $^ $(BONUS).c -o $(NAME)
 
 $(OBJSFOLDER):
 	@mkdir $@

@@ -5,6 +5,7 @@
 		"pipe_process.h": "c",
 		"error_check.h": "c",
 		"unistd.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"stdio.h": "c"
 	}
 }
