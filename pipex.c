@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:29:07 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/12 15:18:28 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/18 17:12:41 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int main(int argc, char **argv, char **envp)
 		return (cmd_f_in(argv[2], argv[1], pipe_fd, envp));
 	else if (IS_CHILD(pid[1]))
 		return (cmd_f_out(argv[3], argv[4], pipe_fd, envp));
-	//* Parent For Sure !
 	close_pipe(pipe_fd, 2);
 	wait(NULL);
 	wait(NULL);

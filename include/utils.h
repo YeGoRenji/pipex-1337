@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:47:08 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/15 15:06:18 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/18 15:13:38 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 void	ft_free_split(char **split_ptr);
-void	ft_putstr_fd(int fd, char *str);
+void	ft_putstr_fd(int fd, char *str, int newline);
 #endif

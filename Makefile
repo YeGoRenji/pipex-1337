@@ -49,7 +49,7 @@ bonus: $(OBJSFOLDER) $(BONUS)
 
 $(NAME): $(OBJS)
 
-$(BONUS): $(OBJS_BONUS) #bonus/checker.c
+$(BONUS): $(OBJS_BONUS)
 	$(CC) $(CFLAGS) $^ $(BONUS).c -o $(NAME)
 
 $(OBJSFOLDER):
@@ -66,7 +66,6 @@ $(OBJSFOLDER)%.o:$(FOLD_ERROR)%.c include/error_check.h
 
 $(OBJSFOLDER)%.o:gnl/%.c include/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
-
 
 clean:
 	rm -rf $(OBJS)
