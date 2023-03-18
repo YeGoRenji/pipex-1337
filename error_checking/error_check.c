@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:15:20 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/12 18:56:34 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:46:41 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@ int	check_cmd(char **cmd, char **envp)
 	char	*path_var;
 	char	**paths;
 	char	**tmp;
-	//! unallowed func
-	if (ft_strchr(cmd[0], '/') && check_file(cmd[0], X_OK))
-		execve(cmd[0], cmd, envp);
+
+	if (ft_strchr(cmd[0], '/'))
+	{
+		if (check_file(cmd[0], X_OK))
+			return (execve(cmd[0], cmd, envp));
+		exit(-1);
+	}
 	path_var = find_path(envp);
 	if (!path_var)
 		return (-3);

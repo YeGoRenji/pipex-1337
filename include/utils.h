@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:47:08 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/12 16:51:20 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:06:18 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <sys/wait.h>
 # include "get_next_line.h"
 # define IS_CHILD(pid) (pid == 0)
 

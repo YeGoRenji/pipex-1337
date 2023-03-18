@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:52:21 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/12 19:47:14 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:10:47 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	cmd_pipe(char *cmd, int input_fd, int output_fd, char **envp)
 	}
 	close(output_fd);
 	err_code = print_err(cmd_split[0], check_cmd(cmd_split, envp));
-	puts("FUCK !");
 	ft_free_split(cmd_split);
 	return (err_code);
 }
