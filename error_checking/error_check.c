@@ -63,7 +63,7 @@ char	*find_path(char **envp)
 	return (NULL);
 }
 
-// TODO : Protext execve
+// TODO : Pro-text execve
 
 int	check_cmd(char **cmd, char **envp)
 {
@@ -88,7 +88,9 @@ int	check_cmd(char **cmd, char **envp)
 	{
 		*paths = ft_strjoin(ft_strjoin(*paths, "/"), cmd[0]);
 		if (access(*paths, X_OK) == 0)
+		{
 			execve(*paths, cmd, envp);
+		}
 		free(*paths);
 		paths++;
 	}
