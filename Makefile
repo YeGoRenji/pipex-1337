@@ -15,6 +15,8 @@ FOLD_PIPE = pipe_processing/
 
 FOLD_ERROR = error_checking/
 
+FOLD_HELPERS = helpers/
+
 SRCS_UTILS = ft_strjoin.c \
 			 ft_memcpy.c \
 			 ft_memcmp.c \
@@ -32,12 +34,16 @@ SRCS_PIPE = pipe_process.c
 SRCS_GNL = get_next_line.c \
 		   get_next_line_utils.c
 
+SRCS_HELPERS = helpers.c
+
 OBJS_FILES = $(SRCS_UTILS:.c=.o) \
 			 $(SRCS_ERROR:.c=.o) \
 			 $(SRCS_PIPE:.c=.o) \
-			 $(SRCS_GNL:.c=.o)
+			 $(SRCS_GNL:.c=.o) \
+			 $(SRCS_HELPERS:.c=.o)
 
-OBJS_FILES_BONUS = $(OBJS_FILES)
+OBJS_FILES_BONUS = $(OBJS_FILES) \
+				   bonus_helpers.o
 
 OBJS = $(foreach obj, $(OBJS_FILES), $(OBJSFOLDER)$(obj))
 
@@ -65,6 +71,9 @@ $(OBJSFOLDER)%.o:$(FOLD_ERROR)%.c include/error_check.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJSFOLDER)%.o:gnl/%.c include/get_next_line.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJSFOLDER)%.o:$(FOLD_HELPERS)%.c include/helpers.h include/bonus_helpers.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

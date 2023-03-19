@@ -6,6 +6,8 @@
 		"error_check.h": "c",
 		"unistd.h": "c",
 		"stdlib.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"helpers.h": "c",
+		"bonus_helpers.h": "c"
 	}
 }

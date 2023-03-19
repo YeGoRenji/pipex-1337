@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_check.h                                      :+:      :+:    :+:   */
+/*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 17:15:28 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/19 13:50:15 by ylyoussf         ###   ########.fr       */
+/*   Created: 2023/03/19 13:41:23 by ylyoussf          #+#    #+#             */
+/*   Updated: 2023/03/19 14:21:25 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_CHECK_H
-# define ERROR_CHECK_H
+#ifndef HELPERS_H
+# define HELPERS_H
 
-# include "utils.h"
+# include <unistd.h>
+# include <stdlib.h>
 
-int		print_err(char *preced, int msg_code);
-int		check_file(char *file_path, int access_type);
-char	*find_path(char **envp);
-int		check_cmd(char **cmd, char **envp);
-void	print_invalid(int bonus);
+void	close_pipe(int *pipe, int size);
+int		is_child(int *pids, int len);
+void	fill_tab(int *tab, int size, int value);
+int		fork_for(int *pids, int nb);
+int		pipe_for(int *pipe_fds, int nb);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:47:08 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/18 15:13:38 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/19 10:06:02 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <sys/wait.h>
 # include "get_next_line.h"
 # define IS_CHILD(pid) (pid == 0)
+
+typedef struct s_data
+{
+	int	*pids;
+	int	*pipes;
+}	t_data;
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
