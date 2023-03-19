@@ -6,11 +6,12 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:34:04 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/19 14:20:16 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:34:39 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/helpers.h"
+#include <stdio.h>
 
 void	close_pipe(int *pipe, int size)
 {

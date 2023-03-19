@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:29:07 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/19 17:14:54 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:34:01 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	nb_child = argc - 3;
 	data.pids = (int *)malloc((nb_child) * sizeof(int));
 	data.pipes = (int *)malloc(2 * (nb_child - 1) * sizeof(int));
-	if (!pipe_for(data.pipes, nb_child) || !fork_for(data.pids, nb_child))
+	if (!pipe_for(data.pipes, nb_child - 1) || !fork_for(data.pids, nb_child))
 		exit(print_err("fork or pipe", 0));
 	exit_code = process_child(data, argv, nb_child, envp);
 	if (exit_code != -4)
