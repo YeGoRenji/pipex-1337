@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:34:04 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/19 22:34:39 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:55:30 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,10 @@ void	close_pipe(int *pipe, int size)
 
 int	is_child(int *pids, int len)
 {
-	int	nb;
-
-	nb = 1;
 	while (len--)
-		nb *= pids[len];
-	return (nb == 0);
+		if (pids[len] == 0)
+			return (1);
+	return (0);
 }
 
 void	fill_tab(int *tab, int size, int value)
@@ -54,7 +52,9 @@ int	fork_for(int *pids, int nb)
 				return (0);
 		}
 		if (is_child(pids, len))
+		{
 			break ;
+		}
 		i++;
 	}
 	return (1);
@@ -62,12 +62,15 @@ int	fork_for(int *pids, int nb)
 
 int	pipe_for(int *pipe_fds, int nb)
 {
+	int i = 0;
+
 	if (!pipe_fds)
 		exit(-1);
-	while (nb--)
+	while (i < nb)
 	{
-		if (pipe(pipe_fds + 2 * nb) == -1)
+		if (pipe(pipe_fds + 2 * i) == -1)
 			return (0);
+		i++;
 	}
 	return (1);
 }
