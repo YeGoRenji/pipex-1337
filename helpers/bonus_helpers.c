@@ -66,22 +66,22 @@ int	here_doc(int *argc, char ***argv)
 
 	if (ft_strncmp((*argv)[1], "here_doc", 9) != 0 || *argc < 6)
 		return (0);
-	str = ft_strdup("");
 	file_fd = open("/tmp/here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (file_fd < 0 || !str)
+	if (file_fd < 0)
 		return (-1);
 	while (1)
 	{
-		free(str);
 		write(1, "pipex> ", 7);
 		str = get_next_line(0);
 		if (!str)
-			return (-1);
+			break;
 		str[ft_strlen(str) - 1] = '\0';
 		if (ft_strncmp(str, (*argv)[2], ft_strlen((*argv)[2]) + 1) == 0)
 			break ;
 		ft_putstr_fd(file_fd, str, 1);
+		free(str);
 	}
+	free(str);
 	setup_args(argc, argv);
 	close(file_fd);
 	return (1);

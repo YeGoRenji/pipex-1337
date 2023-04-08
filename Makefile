@@ -2,7 +2,7 @@ CC = cc
 
 NAME = pipex
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=leak -g
 # CFLAGS = -g
 
 BONUS = pipex_bonus

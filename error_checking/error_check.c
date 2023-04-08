@@ -67,7 +67,7 @@ char	*find_path(char **envp)
 int	check_cmd(char **cmd, char **envp)
 {
 	char	*path_var;
-	char	***paths[2];
+	char	**paths[2];
 
 	if (ft_strchr(cmd[0], '/'))
 	{
