@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:33:14 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/21 12:55:37 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:35:25 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ int	here_doc(int *argc, char ***argv)
 	close(file_fd);
 	return (1);
 }
-
-
-#include <errno.h>
 
 int	process_child(t_data data, char **argv, int nb_child, char **envp)
 {

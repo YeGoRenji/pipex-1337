@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:29:07 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/19 17:06:32 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:51:30 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	int		pipe_fd[2];
 
 	if (argc != 5)
-	{
-		write(2, "Invalid Format !\n", 17);
-		write(2, "Use: ./pipex in_file cmd1 cmd2 out_file\n", 40);
-		return (-1);
-	}
+		return (print_invalid(0));
 	if (pipe(pipe_fd) == -1)
 		return (print_err("pipe", 0));
 	if (!fork_for(pid, 2))

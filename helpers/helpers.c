@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:34:04 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/21 12:55:30 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:32:47 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int	fork_for(int *pids, int nb)
 
 int	pipe_for(int *pipe_fds, int nb)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!pipe_fds)
 		exit(-1);
 	while (i < nb)

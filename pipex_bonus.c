@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:29:07 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/21 10:27:44 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:51:38 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	int		is_here_doc;
 
 	if (argc < 5)
-		return (print_invalid(1), -1);
+		return (print_invalid(1));
 	is_here_doc = here_doc(&argc, &argv);
 	if (is_here_doc == -1)
 	{
