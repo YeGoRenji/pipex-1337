@@ -2,7 +2,7 @@ CC = cc
 
 NAME = pipex
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -g
 # CFLAGS = -g
 
 BONUS = pipex_bonus
@@ -49,9 +49,9 @@ OBJS = $(foreach obj, $(OBJS_FILES), $(OBJSFOLDER)$(obj))
 
 OBJS_BONUS = $(foreach obj, $(OBJS_FILES_BONUS), $(OBJSFOLDER)$(obj))
 
-all:: $(OBJSFOLDER) $(NAME)
+all: $(OBJSFOLDER) $(NAME)
 
-bonus:: $(OBJSFOLDER) $(BONUS)
+bonus: $(OBJSFOLDER) $(BONUS)
 
 $(NAME): $(OBJS)
 
@@ -76,12 +76,12 @@ $(OBJSFOLDER)%.o:gnl/%.c include/get_next_line.h
 $(OBJSFOLDER)%.o:$(FOLD_HELPERS)%.c include/helpers.h include/bonus_helpers.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean::
-	rm -rf $(OBJS)
+clean:
+	rm -rf $(OBJS) $(OBJS_BONUS)
 
-fclean:: clean
+fclean: clean
 	rm -rf $(NAME)
 
-re:: fclean all
+re: fclean all
 
-# .PHONY: clean fclean re bonus all
+.PHONY: clean fclean re bonus all
