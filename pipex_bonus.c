@@ -61,6 +61,5 @@ int	main(int argc, char **argv, char **envp)
 		exit(exit_code);
 	if (is_here_doc)
 		unlink("/tmp/here_doc");
-	printf("LAAAAAAAAAAAA");
 	exit(0);
 }
