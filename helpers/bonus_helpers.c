@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:33:14 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/04/08 13:35:25 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/09 12:25:16 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void	close_every_but(int *pipe_fd, int exception_index, int len)
 	while (i < len)
 	{
 		if (i != in_index && i != out_index)
-		{
 			close(pipe_fd[i]);
-		}
 		i++;
 	}
 }
@@ -74,7 +72,7 @@ int	here_doc(int *argc, char ***argv)
 		write(1, "pipex> ", 7);
 		str = get_next_line(0);
 		if (!str)
-			break;
+			break ;
 		str[ft_strlen(str) - 1] = '\0';
 		if (ft_strncmp(str, (*argv)[2], ft_strlen((*argv)[2]) + 1) == 0)
 			break ;

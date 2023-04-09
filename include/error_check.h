@@ -6,7 +6,7 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:15:28 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/04/08 14:51:25 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/09 12:20:32 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int		print_err(char *preced, int msg_code);
 int		check_file(char *file_path, int access_type);
 char	*find_path(char **envp);
 int		check_cmd(char **cmd, char **envp);
-int	print_invalid(int bonus);
+int		print_invalid(int bonus);
 #endif

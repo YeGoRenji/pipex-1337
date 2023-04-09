@@ -6,12 +6,24 @@
 /*   By: ylyoussf <ylyoussf@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:52:21 by ylyoussf          #+#    #+#             */
-/*   Updated: 2023/03/21 12:55:41 by ylyoussf         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:18:30 by ylyoussf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipe_process.h"
 #include "../include/error_check.h"
+
+static int	get_out_flag(char **envp)
+{
+	int	is_here_doc;
+
+	while (*envp++)
+		;
+	is_here_doc = (*(envp - 2))[9] - '0';
+	if (is_here_doc == 1)
+		return (FLAGS_BONUS);
+	return (FLAGS_OUTPUT);
+}
 
 int	cmd_pipe(char *cmd, int input_fd, int output_fd, char **envp)
 {
@@ -39,7 +51,7 @@ int	cmd_f_out(char *cmd, char *file_path, int *pipe_fd, char **envp)
 	close(pipe_fd[1]);
 	if (!(access(file_path, F_OK) || check_file(file_path, W_OK)))
 		return (-1);
-	file_fd = open(file_path, FLAGS_OUTPUT, 0644);
+	file_fd = open(file_path, get_out_flag(envp), 0644);
 	if (file_fd == -1)
 		return (print_err(file_path, 0));
 	return (cmd_pipe(cmd, pipe_fd[0], file_fd, envp));
